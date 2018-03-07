@@ -13,13 +13,15 @@ namespace FileSystemTest
         {
             @"Workspace\",
             @"Workspace\Archive\",
-            @"Workspace\Temp\"
+            @"Workspace\Temp\",
+            @"Workspace\Temp\SaveData"
         };
 
         static void Main(string[] args)
         {
             var app = new Program();
             app.CreateDirectory();
+            app.DeleteTemp();
 
             Console.ReadLine();
         }
@@ -40,6 +42,16 @@ namespace FileSystemTest
                     Directory.CreateDirectory(path: directoryName);
                     Console.WriteLine($"Create dir {directoryName}");
                 }
+            }
+        }
+
+        public void DeleteTemp()
+        {
+            var tempDir = folders[2];
+
+            if (Directory.Exists(path: tempDir))
+            {
+                Directory.Delete(path: tempDir, recursive: true);
             }
         }
     }
