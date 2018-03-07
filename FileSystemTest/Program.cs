@@ -21,6 +21,7 @@ namespace FileSystemTest
         {
             var app = new Program();
             app.CreateDirectory();
+            app.CopySaveData();
             app.DeleteTemp();
 
             Console.ReadLine();
@@ -52,6 +53,17 @@ namespace FileSystemTest
             if (Directory.Exists(path: tempDir))
             {
                 Directory.Delete(path: tempDir, recursive: true);
+            }
+        }
+
+        public void CopySaveData()
+        {
+            var saveDataDir = folders[3];
+
+            if (Directory.Exists(saveDataDir))
+            {
+                var destDirName = folders[1] + "SaveData_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                Directory.Move(sourceDirName: saveDataDir, destDirName: destDirName);
             }
         }
     }
