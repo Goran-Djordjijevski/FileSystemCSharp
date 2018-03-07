@@ -9,6 +9,13 @@ namespace FileSystemTest
 {
     class Program
     {
+        public List<string> folders = new List<string>()
+        {
+            @"Workspace\",
+            @"Workspace\Archive\",
+            @"Workspace\Temp\"
+        };
+
         static void Main(string[] args)
         {
             var app = new Program();
@@ -19,16 +26,20 @@ namespace FileSystemTest
 
         public void CreateDirectory()
         {
-            string directoryName = "TestFolder";
+            var total = folders.Count;
 
-            if (Directory.Exists(path: directoryName))
+            for (int i = 0; i < total; i++)
             {
-                Console.WriteLine($"Dir {directoryName} exists");
-            }
-            else
-            {
-                Directory.CreateDirectory(path: directoryName);
-                Console.WriteLine($"Create dir {directoryName}");
+                var directoryName = folders[i];
+                if (Directory.Exists(path: directoryName))
+                {
+                    Console.WriteLine($"Dir {directoryName} exists");
+                }
+                else
+                {
+                    Directory.CreateDirectory(path: directoryName);
+                    Console.WriteLine($"Create dir {directoryName}");
+                }
             }
         }
     }
