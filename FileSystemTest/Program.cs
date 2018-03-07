@@ -17,6 +17,14 @@ namespace FileSystemTest
             @"Workspace\Temp\SaveData"
         };
 
+        public enum FolderNames
+        {
+            Workspace,
+            Archive,
+            Temp,
+            SaveData
+        }
+
         static void Main(string[] args)
         {
             var app = new Program();
@@ -33,7 +41,7 @@ namespace FileSystemTest
 
             for (int i = 0; i < total; i++)
             {
-                var directoryName = folders[i];
+                var directoryName = GetFolderByName((FolderNames)i);
                 if (Directory.Exists(path: directoryName))
                 {
                     Console.WriteLine($"Dir {directoryName} exists");
@@ -48,7 +56,7 @@ namespace FileSystemTest
 
         public void DeleteTemp()
         {
-            var tempDir = folders[2];
+            var tempDir = GetFolderByName(FolderNames.Temp);
 
             if (Directory.Exists(path: tempDir))
             {
@@ -58,13 +66,18 @@ namespace FileSystemTest
 
         public void CopySaveData()
         {
-            var saveDataDir = folders[3];
+            var saveDataDir = GetFolderByName(FolderNames.SaveData);
 
             if (Directory.Exists(saveDataDir))
             {
-                var destDirName = folders[1] + "SaveData_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                var destDirName = GetFolderByName(FolderNames.Archive) + "SaveData_" + DateTime.Now.ToString("yyyyMMddHHmmss");
                 Directory.Move(sourceDirName: saveDataDir, destDirName: destDirName);
             }
+        }
+
+        public string GetFolderByName(FolderNames name)
+        {
+            return folders[(int)name];
         }
     }
 }
