@@ -11,9 +11,26 @@ namespace FileSystemTest
     {
         static void Main(string[] args)
         {
-            
+            var app = new Program();
+
+            app.CreateDirectory();
 
             Console.ReadLine();
+        }
+
+        public void CreateDirectory()
+        {
+            string directoryName = "TestFolder";
+
+            if (Directory.Exists(directoryName))
+            {
+                Console.WriteLine($"Directory {directoryName} exists");
+            }
+            else
+            {
+                Directory.CreateDirectory(directoryName);
+                Console.WriteLine($"Create directory {directoryName}");
+            }
         }
     }
 }
