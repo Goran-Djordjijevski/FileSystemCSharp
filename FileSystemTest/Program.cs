@@ -27,7 +27,13 @@ namespace FileSystemTest
             Temp
         }
 
-        public string configFile = "Config.txt";
+        public string configFile
+        {
+            get
+            {
+                return GetUserDataFolder() + "Config.txt";
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -97,7 +103,7 @@ namespace FileSystemTest
 
         public string GetFolderByName(FolderNames names)
         {
-            return folders[(int)names];
+            return GetUserDataFolder() + folders[(int)names];
         }
 
         public void CreateFile()
@@ -164,6 +170,19 @@ namespace FileSystemTest
             g.Clear(Color.Magenta);
 
             bitMap.Save(imageFileName, ImageFormat.Jpeg);
+        }
+
+        public string GetUserDataFolder()
+        {
+            var directory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            directory += @"\FileSystemTest\";
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            return directory;
         }
     }
 }
