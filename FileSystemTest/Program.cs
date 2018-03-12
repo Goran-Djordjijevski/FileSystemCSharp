@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace FileSystemTest
 {
@@ -42,6 +44,8 @@ namespace FileSystemTest
             Console.ReadLine();
 
             app.ArchiveConfig();
+
+            app.SaveImages();
 
             app.CopySaveData();
 
@@ -149,6 +153,17 @@ namespace FileSystemTest
             File.WriteAllText(tempPath, configString);
 
             File.Move(tempPath, newPath);
+        }
+
+        public void SaveImages()
+        {
+            var imageFileName = GetFolderByName(FolderNames.SaveData) + "image.jpeg";
+
+            var bitMap = new Bitmap(128, 128, PixelFormat.Format24bppRgb);
+            var g = Graphics.FromImage(bitMap);
+            g.Clear(Color.Magenta);
+
+            bitMap.Save(imageFileName, ImageFormat.Jpeg);
         }
     }
 }
