@@ -33,6 +33,8 @@ namespace FileSystemTest
 
             app.CreateConfig();
 
+            app.ReadConfig();
+
             app.CreateDirectory();
 
             app.CreateFile();
@@ -80,7 +82,9 @@ namespace FileSystemTest
 
             if (Directory.Exists(saveDataDir))
             {
-                var destDirName = GetFolderByName(FolderNames.Archive) + "SaveData_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                var destDirName = GetFolderByName(FolderNames.Archive);
+                destDirName += Path.GetFileName(saveDataDir.TrimEnd(Path.DirectorySeparatorChar));
+                destDirName += "_" + DateTime.Now.ToString("yyyyMMddHHmmss");
                 Directory.Move(saveDataDir, destDirName);
             }
         }
@@ -109,6 +113,18 @@ namespace FileSystemTest
             if (!File.Exists(configFile))
             {
                 File.WriteAllLines(configFile, folders);
+            }
+        }
+
+        public void ReadConfig()
+        {
+            var lines = File.ReadAllLines(configFile);
+            var total = lines.Length;
+
+            for (int i = 0; i < total; i++)
+            {
+                var pathString = lines[i];
+                Console.WriteLine($"Setting path - {pathString}");
             }
         }
     }
