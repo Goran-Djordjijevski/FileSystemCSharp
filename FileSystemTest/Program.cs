@@ -41,6 +41,8 @@ namespace FileSystemTest
 
             Console.ReadLine();
 
+            app.ArchiveConfig();
+
             app.CopySaveData();
 
             app.DeleteTemp();
@@ -126,6 +128,27 @@ namespace FileSystemTest
                 var pathString = lines[i];
                 Console.WriteLine($"Setting path - {pathString}");
             }
+        }
+
+        public void ArchiveConfig()
+        {
+            var configPath = configFile;
+            var configName = Path.GetFileName(configPath);
+            var tempPath = GetFolderByName(FolderNames.Temp) + configName;
+            var newPath = GetFolderByName(FolderNames.SaveData) + configName;
+
+            File.Copy(configPath, tempPath);
+
+            var lines = File.ReadAllLines(tempPath);
+            var configString = String.Join(Environment.NewLine, lines);
+            var workspaceDirectoryName = Path.GetDirectoryName(GetFolderByName(FolderNames.Workspace));
+            var newWorkspaceDirName = workspaceDirectoryName + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            configString = configString.Replace(workspaceDirectoryName, newWorkspaceDirName);
+
+            File.WriteAllText(tempPath, configString);
+
+            File.Move(tempPath, newPath);
         }
     }
 }
