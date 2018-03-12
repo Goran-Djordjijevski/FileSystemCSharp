@@ -25,9 +25,13 @@ namespace FileSystemTest
             Temp
         }
 
+        public string configFile = "Config.txt";
+
         static void Main(string[] args)
         {
             var app = new Program();
+
+            app.CreateConfig();
 
             app.CreateDirectory();
 
@@ -98,6 +102,14 @@ namespace FileSystemTest
             var size = fileInfo.Length;
 
             Console.WriteLine($"Created file {name} with extension {extension} with a size of {size} bytes");
+        }
+
+        public void CreateConfig()
+        {
+            if (!File.Exists(configFile))
+            {
+                File.WriteAllLines(configFile, folders);
+            }
         }
     }
 }
