@@ -21,8 +21,8 @@ namespace FileSystemTest
         {
             Workspace,
             Archive,
-            Temp,
-            SaveData
+            SaveData,
+            Temp
         }
 
         static void Main(string[] args)
@@ -31,9 +31,11 @@ namespace FileSystemTest
 
             app.CreateDirectory();
 
-            app.CopySaveData();
+            app.CreateFile();
 
             Console.ReadLine();
+
+            app.CopySaveData();
 
             app.DeleteTemp();
         }
@@ -82,6 +84,20 @@ namespace FileSystemTest
         public string GetFolderByName(FolderNames names)
         {
             return folders[(int)names];
+        }
+
+        public void CreateFile()
+        {
+            var path = GetFolderByName(FolderNames.SaveData) + "TestFile.txt";
+
+            File.WriteAllText(path, contents: "Hello");
+
+            var fileInfo = new FileInfo(path);
+            var name = Path.GetFileNameWithoutExtension(fileInfo.FullName);
+            var extension = fileInfo.Extension;
+            var size = fileInfo.Length;
+
+            Console.WriteLine($"Created file {name} with extension {extension} with a size of {size} bytes");
         }
     }
 }
